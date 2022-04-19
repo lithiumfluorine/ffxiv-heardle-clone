@@ -20,13 +20,16 @@
 
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="bundle.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/css/autoComplete.02.min.css">
 
+    <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.6/dist/autoComplete.js"></script>
     <script defer src="main.js"></script>
 
 </head>
 
 <body>
-    <main class="bg-custom-bg text-custom-fg overflow-auto flex flex-col" style="height: 645px;">
+    <main class="bg-custom-bg text-custom-fg flex flex-col" style="height: 645px;">
         <div class="flex-none">
             <header class="border-b border-custom-line">
                 <div class="max-w-screen-md mx-auto ">
@@ -72,7 +75,7 @@
         </div>
         <div class="w-full flex flex-col flex-grow relative">
             <div class="max-w-screen-sm w-full mx-auto h-full flex flex-col justify-between overflow-auto">
-                <div class="p-3 flex-col items-evenly">
+                <div id="guess-list" class="p-3 flex-col items-evenly">
                     <div class="p-2 mb-2 border border-custom-mg flex items-center last:mb-0 border-custom-line">
                         <div class="w-5 h-5"></div>
                     </div>
@@ -95,7 +98,7 @@
             </div>
         </div>
         <div id="main-text-box" class="text-center p-3 flex flex-col items-center text-sm text-custom-line">
-            <p>Turn up the volume and tap to start the track!</p>
+            <p>Tap to start the track! Some of these are <strong>loud</strong> tho!</p>
 
             <svg class="mt-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -128,8 +131,8 @@
                         <div class="flex items-center">
                             <div>0:00</div>
                         </div>
-                        <div class="flex justify-center items-center p-1"><button
-                                id="play-button" class="px-2 py-2 uppercase tracking-widest border-none flex items-center font-semibold text-sm svelte-1r54uzk">
+                        <div class="flex justify-center items-center p-1"><button id="play-button"
+                                class="px-2 py-2 uppercase tracking-widest border-none flex items-center font-semibold text-sm svelte-1r54uzk">
                                 <div
                                     class="flex justify-center items-center text-custom-fg h-14 w-14 border-2 rounded-full relative overflow-hidden">
                                     <div class="ml-1 relative z-10"><svg xmlns="http://www.w3.org/2000/svg" width="24"
@@ -145,33 +148,28 @@
             </div>
         </div>
         <div class="hidden">
-            <audio id="audio-elem"></audio>
+            <audio preload="auto" id="audio-elem"></audio>
         </div>
         <div class="max-w-screen-sm w-full mx-auto flex-col">
             <div class="m-3 mt-0">
                 <div>
-                    <div class="autoComplete_wrapper relative"><svg class="absolute top-4 left-3"
-                            xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <div class="autoComplete_wrapper" style="width: 100%; display: flex; align-items: center;">
+                        <svg style="display: inline-block;" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="11" cy="11" r="8"></circle>
                             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                        </svg> <input
+                        </svg>
+                        <input id="autoComplete" style="width:100%;flex-grow: 1;"
                             class="focus:outline-none focus:border-custom-positive w-full p-3 pl-9 placeholder:text-custom-line bg-custom-bg text-custom-fg border-custom-mg"
-                            id="autoComplete" type="search" dir="ltr" spellcheck="false" autocorrect="off"
-                            autocomplete="off" autocapitalize="none" aria-controls="autoComplete_list_1"
-                            aria-autocomplete="both" placeholder="Know it? Search for the artist / title"
-                            role="combobox" aria-owns="autoComplete_list_1" aria-haspopup="true" aria-expanded="false">
-                        <ul id="autoComplete_list_1" role="listbox" hidden=""></ul>
-                        <div class="absolute right-3 top-4"><svg xmlns="http://www.w3.org/2000/svg" width="18"
-                                height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                            </svg></div>
+                            type="search" dir="ltr" spellcheck=false autocorrect="off" autocomplete="off"
+                            autocapitalize="off" maxlength="2048" tabindex="1"
+                            placeholder="Know it? Search for the artist / title" />
                     </div>
-                    <div class="flex justify-between pt-3"><button
-                            class="px-2 py-2 uppercase tracking-widest bg-custom-mg border-none flex items-center font-semibold text-sm svelte-1r54uzk">Skip
-                            <span class="tracking-normal lowercase">(+1s)</span></button> <button
+                    <div class="flex justify-between pt-3">
+                        <button id="skip-btn"
+                            class="px-2 py-2 uppercase tracking-widest bg-custom-mg border-none flex items-center font-semibold text-sm svelte-1r54uzk">Skip</button>
+                        <button id="submit-btn"
                             class="px-2 py-2 uppercase tracking-widest border-none flex items-center font-semibold text-sm svelte-1r54uzk bg-custom-positive">Submit</button>
                     </div>
                 </div>
